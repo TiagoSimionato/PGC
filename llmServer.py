@@ -12,7 +12,7 @@ import sys
 PATH = sys.argv[1] if (len(sys.argv) > 1) else './gpt4all-falcon-q4_0.gguf'
 
 template = PromptTemplate.from_template(
-  "{promot}"
+  "{prompt}"
 )
 
 chain = template | GPT4All(model=PATH, verbose=True)
