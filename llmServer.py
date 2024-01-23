@@ -2,14 +2,31 @@ from fastapi import FastAPI
 from langchain.llms.gpt4all import GPT4All
 from langchain.prompts import PromptTemplate
 from langserve import add_routes
+from langchain.evaluation import load_evaluator
+from configs import LARGER_MODEL_PATH, MEDIUM_MODEL_PATH, SMALLER_MODEL_PATH
 import sys
 
 ####################
 #LangChain LLM Setup
 ####################
 
+pathResolve = ''
+if (len(sys.argv) > 1):
+  input = int(sys.argv[1])
+
+  options = [1, 2, 3]
+
+  pathMapping = {
+    1: SMALLER_MODEL_PATH,
+    2: MEDIUM_MODEL_PATH,
+    3: LARGER_MODEL_PATH,
+  }
+
+  if input in options:
+    pathResolve = pathMapping[input]
+
 #Path to weights
-PATH = sys.argv[1] if (len(sys.argv) > 1) else './gpt4all-falcon-q4_0.gguf'
+PATH = pathResolve if (pathResolve != '') else LARGER_MODEL_PATH
 
 template = PromptTemplate.from_template(
   "{prompt}"
