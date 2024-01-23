@@ -1,6 +1,7 @@
+pytesseract==0.3.10
 langchain==0.0.343
 gpt4all==2.0.2
-fastapi=0.104.1
+fastapi==0.104.1
 langserve==0.0.32
 #Following packages needed for langserve
 orjson==3.9.10
