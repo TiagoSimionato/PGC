@@ -4,6 +4,7 @@ import sys
 from langserve import RemoteRunnable
 
 from ui_parser import parse
+from prompt import prompt_template
 
 ap = argparse.ArgumentParser()
 ap.add_argument('-ap', '--appiumPort', type=int, default=4723, help='Port to appium server running on localhost')
@@ -19,16 +20,13 @@ capabilities = dict(
   locale='US'
 )
 
-ui_elements = parse(capabilities=capabilities, appiumPort=args['appiumPort'])
+ui_elements = parse(capabilities=capabilities, appium_port=args['appiumPort'])
+
+prompt = prompt_template(button_text_list=ui_elements)
 
 #prompt = " ".join(sys.argv[1:]) if (len(sys.argv) > 1) else 'say hello'
 
-# prompt = f' \\
-# ADASD \\
-# ASDAS as
-# '
+remote_chain = RemoteRunnable('http://localhost:8000/query/')
+response = remote_chain.invoke({"prompt" : prompt})
 
-# remote_chain = RemoteRunnable('http://localhost:8000/query/')
-# response = remote_chain.invoke({"prompt" : prompt})
-
-# print(response)
+print(response)
