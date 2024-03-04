@@ -1,5 +1,12 @@
 # PGC : Mobile testing with LLM
 
+## Todo
+
+- gemini api
+- use saved cache
+- remove unnecessary dependencies
+- example.txt
+
 ## Dependencies
 
 ### Virtual Environment
