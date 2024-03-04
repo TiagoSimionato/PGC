@@ -10,23 +10,23 @@ import sys
 #LangChain LLM Setup
 ####################
 
-pathResolve = ''
+path_resolve = ''
 if (len(sys.argv) > 1):
   input = int(sys.argv[1])
 
   options = [1, 2, 3]
 
-  pathMapping = {
+  path_mapping = {
     1: SMALLER_MODEL_PATH,
     2: MEDIUM_MODEL_PATH,
     3: LARGER_MODEL_PATH,
   }
 
   if input in options:
-    pathResolve = pathMapping[input]
+    path_resolve = path_mapping[input]
 
 #Path to weights
-PATH = pathResolve if (pathResolve != '') else LARGER_MODEL_PATH
+PATH = path_resolve if (path_resolve != '') else LARGER_MODEL_PATH
 
 template = PromptTemplate.from_template(
   "{prompt}"
