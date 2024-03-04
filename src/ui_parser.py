@@ -8,10 +8,6 @@ from appium.webdriver.common.appiumby import AppiumBy
 
 from configs import CACHE_PATH
 
-
-def getText(item):
-  return item.get_attribute(name='text')
-
 def parse(capabilities, appium_port = 4723, should_cache= True):
   capabilities_options = UiAutomator2Options().load_capabilities(capabilities)
   url = f'http://192.168.15.35:{appium_port}'
