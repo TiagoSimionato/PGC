@@ -1,13 +1,12 @@
-from os import listdir, path, mkdir
+from os import listdir, mkdir, path
 
-def save(content: str, output_path):
-  file_name = 'output'
-  
+
+def save(content: str, file_name: str = 'output', output_path: str = 'outputs'):  
   if (not path.isdir(output_path)):
     mkdir(output_path)
 
   index_offset = len(listdir(output_path))
-  with open(f'{output_path}/{file_name}_{index_offset + 1}.txt', 'w') as f:
+  with open(f'{output_path}/{index_offset + 1}_{file_name}.txt', 'w', encoding='utf-8') as f:
     f.write(content)
 
 def getText(item):

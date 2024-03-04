@@ -1,4 +1,3 @@
-import json
 import os
 from collections import defaultdict
 
@@ -7,6 +6,8 @@ from appium.options.android import UiAutomator2Options
 from appium.webdriver.common.appiumby import AppiumBy
 
 from configs import CACHE_PATH
+from utils import getText
+
 
 def parse(capabilities, appium_port = 4723, should_cache= True):
   capabilities_options = UiAutomator2Options().load_capabilities(capabilities)

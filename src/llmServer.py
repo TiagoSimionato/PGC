@@ -1,10 +1,12 @@
+import sys
+
 from fastapi import FastAPI
+from langchain.evaluation import load_evaluator
 from langchain.llms.gpt4all import GPT4All
 from langchain.prompts import PromptTemplate
 from langserve import add_routes
-from langchain.evaluation import load_evaluator
+
 from configs import LARGER_MODEL_PATH, MEDIUM_MODEL_PATH, SMALLER_MODEL_PATH
-import sys
 
 ####################
 #LangChain LLM Setup
@@ -27,6 +29,8 @@ if (len(sys.argv) > 1):
 
 #Path to weights
 PATH = path_resolve if (path_resolve != '') else LARGER_MODEL_PATH
+
+print(f'chosen model: {PATH}')
 
 template = PromptTemplate.from_template(
   "{prompt}"

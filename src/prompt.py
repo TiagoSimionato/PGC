@@ -5,7 +5,7 @@ FINAL_QUESTION = 'Write a Python code able to test the interface using Appium an
 def prompt_template(button_text_list):
   return f'''Question:
 {QUESTION_CONTEXT}
-[Battery,Settings]
+['Battery', 'Settings']
 {FINAL_QUESTION}
 Answer:
 ```

@@ -4,9 +4,11 @@ import sys
 from langserve import RemoteRunnable
 
 from configs import OUTPUT_PATH
-from ui_parser import parse
 from prompt import prompt_template
+from ui_parser import parse
 from utils import save
+
+model_name='falcon'
 
 ap = argparse.ArgumentParser()
 ap.add_argument('-ap', '--appiumPort', type=int, default=4723, help='Port to appium server running on localhost')
@@ -32,4 +34,10 @@ remote_chain = RemoteRunnable('http://localhost:8000/query/')
 response = remote_chain.invoke({"prompt" : prompt})
 
 print(response)
-save(content=response, output_path=OUTPUT_PATH)
+content = f'''PROMPT:
+{prompt}
+
+RESPONSE:
+{response}
+'''
+save(content=content, file_name=model_name, output_path=OUTPUT_PATH)
