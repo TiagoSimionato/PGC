@@ -34,9 +34,23 @@ pip install "langserve[all]"
 
 By default, models should be stored inside a `models` folder, but the desired path can be adjusted in `configs.py`
 
-### Tesseract
+### Appium
 
-The project uses Tesseract, an open source OCR library made by Google. To install it, follow the [Official Instructions](https://github.com/tesseract-ocr/tesseract)
+The project uses appium for android emulator automation. It aims to extract ui data to feed the LLM prompt so it can generate test to run with the Appium tool itself.
+
+```bash
+npm i -g appium
+
+appium driver install uiautomator2
+appium driver install espresso
+```
+
+version: v2.5.1
+
+uiautomator2@3.0.1
+espresso@2.36.1
+
+It is required to set `ANDROID_HOME` and `JAVA_HOME` environment variables
 
 ## Running
 
@@ -52,7 +66,7 @@ Start by initializing the server
 python llmServer.py
 ```
 
-it will train the model run the a REST API app under the port `8000` and path `/query`
+it will load the model and serve it as a REST API under the port `8000` and path `/query`
 
 By default it searches for the Wizard language model at the models directory, but it can be specified when initializing the server. Use options `1`, `2` or `3` according to the size of the model desired, being `3` the largest.
 
