@@ -1,5 +1,7 @@
 .venv
 __pycache__
-models
-cache
-outputs
+/models
+/cache
+/outputs
+src/secrets
+test.py

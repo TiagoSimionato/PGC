@@ -1,6 +1,6 @@
-QUESTION_CONTEXT = 'You are a Software Test Engineer. Knowing there\'s an Android aplication you have to test and it has you know it\'s interface has buttons with the following texts:'
+QUESTION_CONTEXT = 'You are a Software Test Engineer. Knowing there\'s an Android aplication you have to write tests for. You know it\'s interface has buttons with the following texts:'
 
-FINAL_QUESTION = 'Write a Python code able to test the interface using Appium and the python library called unittest'
+FINAL_QUESTION = 'Write a Python code able to test the interface using Appium and the python library called unittest. Infer the features that should be tested based on the provided ui info and add ad many tests to the code as needed'
 #<android.widget.Button text="Battery" />
 def prompt_template(button_text_list):
   return f'''Question:
@@ -9,7 +9,6 @@ def prompt_template(button_text_list):
 {FINAL_QUESTION}
 Answer:
 ```
-import argparse
 import unittest
 from appium import webdriver
 from appium.options.android import UiAutomator2Options
@@ -28,7 +27,7 @@ capabilities_options = UiAutomator2Options().load_capabilities(capabilities)
 
 class TestAppium(unittest.TestCase):
   def setUp(self) -> None:
-    self.driver = webdriver.Remote(command_executor=APPIUM_SERVER_URL, options=capabilities_options)
+    self.driver = webdriver.Remote(command_executor='http://192.168.15.35:4723', options=capabilities_options)
 
   def tearDown(self) -> None:
     if self.driver:
@@ -41,9 +40,6 @@ class TestAppium(unittest.TestCase):
   def test_find_settings(self) -> None:
     el = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="Settings"]')
     el.click()
-
-  def test_dump(self) -> None:
-    print(self.driver.page_source)
 
 if __name__ == '__main__':
   unittest.main()

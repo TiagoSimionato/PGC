@@ -2,9 +2,6 @@
 
 ## Todo
 
-- gemini api
-- use saved cache
-- remove unnecessary dependencies
 - example.txt
 
 ## Dependencies
