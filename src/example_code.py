@@ -31,31 +31,36 @@ class TestAppium(unittest.TestCase):
       self.driver.quit()
 
   def test_sum(self) -> None:
-    #Action
-    button_nine = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="9"]')
-    button_nine.click()
-    button_plus = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="+"]')
-    button_plus.click()
-    button_two = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="2"]')
-    button_two.click()
+    expr_text_view = self.driver.find_element(by=AppiumBy.XPATH, value="//*[@*='No formula']")
+    result_text_view = self.driver.find_element(by=AppiumBy.XPATH, value="//*[@*='No result']")
 
-    #Assertion
-    result = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="11"]')
-    self.assertEqual(result.text, '11')
+    self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="9"]').click()
+    self.assertEqual(expr_text_view.text, '9')
+    self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="+"]').click()
+    self.assertEqual(expr_text_view.text, '9+')
+    self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="2"]').click()
+    self.assertEqual(expr_text_view.text, '9+2')
+    self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="="]').click()
+    self.assertEqual(result_text_view.text, '11')
+
+    self.assertEqual(expr_text_view.text, '11')
+
 
   def test_minus(self) -> None:
-    #Action
-    button_five = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="5"]')
-    button_five.click()
-    button_five.click()
-    button_minus = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="-"]')
-    button_minus.click()
-    button_three = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="3"]')
-    button_three.click()
+    expr_text_view = self.driver.find_element(by=AppiumBy.XPATH, value="//*[@*='No formula']")
+    result_text_view = self.driver.find_element(by=AppiumBy.XPATH, value="//*[@*='No result']")
+  
+    self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="5"]').click()
+    self.assertEqual(expr_text_view.text, '5')
+    self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="5"]').click()
+    self.assertEqual(expr_text_view.text, '55')
+    self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="−"]').click()
+    self.assertEqual(expr_text_view.text, '55−')
+    self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="3"]').click()
+    self.assertEqual(result_text_view.text, '55−3')
 
     #Assertion
-    result = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="52"]')
-    self.assertEqual(result.text, '11')
+    self.assertEqual(expr_text_view.text, '52')
 
 if __name__ == '__main__':
   unittest.main()
