@@ -34,8 +34,10 @@ class TestAppium(unittest.TestCase):
     el = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="Battery"]')
     el.click()
 
-  def test_dump(self) -> None:
-    print(self.driver.page_source)
+  def test_find_settings(self) -> None:
+    el = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="Settings"]')
+    el.click()
 
 if __name__ == '__main__':
   unittest.main()
+  
