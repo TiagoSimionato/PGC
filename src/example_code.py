@@ -30,13 +30,32 @@ class TestAppium(unittest.TestCase):
     if self.driver:
       self.driver.quit()
 
-  def test_find_battery(self) -> None:
-    el = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="Battery"]')
-    el.click()
+  def test_sum(self) -> None:
+    #Action
+    button_nine = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="9"]')
+    button_nine.click()
+    button_plus = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="+"]')
+    button_plus.click()
+    button_two = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="2"]')
+    button_two.click()
 
-  def test_find_settings(self) -> None:
-    el = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="Settings"]')
-    el.click()
+    #Assertion
+    result = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="11"]')
+    self.assertEqual(result.text, '11')
+
+  def test_minus(self) -> None:
+    #Action
+    button_five = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="5"]')
+    button_five.click()
+    button_five.click()
+    button_minus = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="-"]')
+    button_minus.click()
+    button_three = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="3"]')
+    button_three.click()
+
+    #Assertion
+    result = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="52"]')
+    self.assertEqual(result.text, '11')
 
 if __name__ == '__main__':
   unittest.main()
