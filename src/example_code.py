@@ -25,42 +25,38 @@ capabilities_options = UiAutomator2Options().load_capabilities(capabilities)
 class TestAppium(unittest.TestCase):
   def setUp(self) -> None:
     self.driver = webdriver.Remote(command_executor=APPIUM_SERVER_URL, options=capabilities_options)
+    self.expr_text_view = self.driver.find_element(by=AppiumBy.XPATH, value="//*[@*='com.google.android.calculator:id/formula']")
+    self.preview_text_view = self.driver.find_element(by=AppiumBy.XPATH, value="//*[@*='com.google.android.calculator:id/result_preview']")
 
   def tearDown(self) -> None:
     if self.driver:
       self.driver.quit()
 
   def test_sum(self) -> None:
-    expr_text_view = self.driver.find_element(by=AppiumBy.XPATH, value="//*[@*='No formula']")
-    result_text_view = self.driver.find_element(by=AppiumBy.XPATH, value="//*[@*='No result']")
-
     self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="9"]').click()
-    self.assertEqual(expr_text_view.text, '9')
+    self.assertEqual(self.expr_text_view.text, '9')
     self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="+"]').click()
-    self.assertEqual(expr_text_view.text, '9+')
+    self.assertEqual(self.expr_text_view.text, '9+')
     self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="2"]').click()
-    self.assertEqual(expr_text_view.text, '9+2')
+    self.assertEqual(self.expr_text_view.text, '9+2')
+    self.assertEqual(self.preview_text_view.text, '11')
     self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="="]').click()
+    result_text_view = self.driver.find_element(by=AppiumBy.XPATH,value="//*[@*='com.google.android.calculator:id/result_final']")
     self.assertEqual(result_text_view.text, '11')
 
-    self.assertEqual(expr_text_view.text, '11')
-
-
   def test_minus(self) -> None:
-    expr_text_view = self.driver.find_element(by=AppiumBy.XPATH, value="//*[@*='No formula']")
-    result_text_view = self.driver.find_element(by=AppiumBy.XPATH, value="//*[@*='No result']")
-  
     self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="5"]').click()
-    self.assertEqual(expr_text_view.text, '5')
-    self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="5"]').click()
-    self.assertEqual(expr_text_view.text, '55')
+    self.assertEqual(self.expr_text_view.text, '5')
+    self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="4"]').click()
+    self.assertEqual(self.expr_text_view.text, '54')
     self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="−"]').click()
-    self.assertEqual(expr_text_view.text, '55−')
+    self.assertEqual(self.expr_text_view.text, '54−')
     self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="3"]').click()
-    self.assertEqual(result_text_view.text, '55−3')
-
-    #Assertion
-    self.assertEqual(expr_text_view.text, '52')
+    self.assertEqual(self.expr_text_view.text, '54−3')
+    self.assertEqual(self.preview_text_view.text, '51')
+    self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="="]').click()
+    result_text_view = self.driver.find_element(by=AppiumBy.XPATH,value="//*[@*='com.google.android.calculator:id/result_final']")
+    self.assertEqual(result_text_view.text, '51')
 
 if __name__ == '__main__':
   unittest.main()
