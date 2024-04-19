@@ -4,7 +4,7 @@ from utils import load
 def question_context(appName: str, appDescripton: str):
   return f'You are a Software Test Engineer and there\'s an Android aplication called {appName} you have to write tests for. {appDescripton}. You have the following information extracted from the ui represening buttons and text views:'
 
-FINAL_QUESTION = 'Write a Python code able to test the interface and make sure it works as expected. The code should use Appium and the python library unittest. Infer the features that should be tested and what assertions the respective tests need based on the provided information and add as many tests as needed. Every test needs at least one assertion. If the expected result would be a non-integer number, it should be asserted with assertAlmostEqual. Once all tests are executed, every button should be clicked at least once.'
+FINAL_QUESTION = 'Write a Python code able to test the interface and make sure it works as expected. The code should use Appium and the python library unittest. Infer the features that should be tested and what assertions the respective tests need based on the provided information and add as many tests as needed to test all functionalities. Every test needs at least one assertion. Whenever the expected result would be a decimal number, use assertAlmostEqual for the assertion with a delta = 0.0001. Once all tests are executed, every button should be clicked at least once.'
 
 code_example = load('./src/example_code.py')
 
