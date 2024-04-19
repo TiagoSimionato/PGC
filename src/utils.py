@@ -10,7 +10,7 @@ def save(content: str, file_name: str = 'output', output_path: str = 'outputs'):
     f.write(content)
 
 def load(file_path: str):
-  with open(file_path, 'r') as f:
+  with open(file_path, 'r', encoding='utf-8') as f:
     return f.read()
 
 def getText(item):
