@@ -31,11 +31,13 @@ prompt = prompt_template(button_text_list=ui_elements, appName='Calculator', app
 if (args['model'] == 1):
   from secrets.key import API_KEY
 
-  from models.gemini import invoke_gemini
+  from langchain_google_genai import ChatGoogleGenerativeAI
 
   model_name = 'gemini'
-
-  response = invoke_gemini(prompt=prompt, api_key=API_KEY)
+  model = ChatGoogleGenerativeAI(model='gemini-pro', google_api_key=API_KEY, max_output_tokens=9999999)
+  response: str = ''
+  for chunk in model.stream(prompt):
+    response += chunk.content
 else:
   from langserve import RemoteRunnable
 
