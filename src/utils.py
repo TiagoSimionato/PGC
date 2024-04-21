@@ -1,7 +1,9 @@
 from os import listdir, mkdir, path
 
+from configs import OUTPUT_PATH
 
-def save(content: str, file_name: str = 'output', output_path: str = 'outputs'):  
+
+def save(content: str, file_name: str = 'output', output_path: str = OUTPUT_PATH):  
   if (not path.isdir(output_path)):
     mkdir(output_path)
 
@@ -13,5 +15,19 @@ def load(file_path: str):
   with open(file_path, 'r', encoding='utf-8') as f:
     return f.read()
 
+BASE_CODE = load('./src/base_code.py')
+CODE_EXAMPLE_SUM = load('./src/example_code_sum.txt')
+CODE_EXAMPLE_SUB = load('./src/example_code_subtraction.txt')
+FINAL_LINES = 'if __name__ == \'__main__\':\n  unittest.main()'
+
 def getText(item):
   return item.get_attribute(name='text')
+
+def parseResponse(response: str):
+  [tested_features_string, code] = response.split(';')
+  
+  tested_features = tested_features_string.split(':')[1].split(',')
+
+  formatted_code = code.split('```')[1]
+  
+  return [tested_features, formatted_code]

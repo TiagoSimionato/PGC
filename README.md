@@ -1,5 +1,9 @@
 # PGC : Mobile testing with LLM
 
+# TODO
+
+- Ask LLM to generate requirements
+
 ## Dependencies
 
 ### Virtual Environment
