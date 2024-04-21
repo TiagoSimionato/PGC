@@ -1,0 +1,13 @@
+  def test_minus(self) -> None:
+    self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="5"]').click()
+    self.assertEqual(self.expr_text_view.text, '5')
+    self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="4"]').click()
+    self.assertEqual(self.expr_text_view.text, '54')
+    self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="−"]').click()
+    self.assertEqual(self.expr_text_view.text, '54−')
+    self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="3"]').click()
+    self.assertEqual(self.expr_text_view.text, '54−3')
+    self.assertEqual(self.preview_text_view.text, '51')
+    self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="="]').click()
+    result_text_view = self.driver.find_element(by=AppiumBy.XPATH,value="//*[@*='com.google.android.calculator:id/result_final']")
+    self.assertEqual(result_text_view.text, '51')
