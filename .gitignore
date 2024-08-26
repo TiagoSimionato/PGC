@@ -3,5 +3,6 @@ __pycache__
 /models
 /cache
 /outputs
+/outputs_classified
 src/secrets
 test.py

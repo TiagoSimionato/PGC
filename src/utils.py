@@ -24,10 +24,15 @@ def getText(item):
   return item.get_attribute(name='text')
 
 def parseResponse(response: str):
-  [tested_features_string, code] = response.split(';')
-  
-  tested_features = tested_features_string.split(':')[1].split(',')
+  try:
+    [tested_features_string, code,_] = response.split('\'\'\'')
 
-  formatted_code = code.split('```')[1]
-  
-  return [tested_features, formatted_code]
+    tested_features = tested_features_string
+    for char in ['[', ']', ' ', '\'', '"', '\n', ';']:
+      tested_features = tested_features.replace(char, '')
+
+    tested_features = tested_features.split(':')[1].split(',')
+    
+    return [tested_features, code]
+  except:
+    print(response)

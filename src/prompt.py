@@ -1,41 +1,159 @@
+from constants import CALCULATOR_UI_INFO, FINAL_QUESTION, REQUIREMENTS
 from utils import BASE_CODE, CODE_EXAMPLE_SUB, CODE_EXAMPLE_SUM, load
 
-CALCULATOR_UI_INFO = f'''{{'buttons': [{{'text': 'DEG', 'tag_name': 'degree mode'}}, {{'text': 'INV', 'tag_name': 'show inverse functions'}}, {{'text': 'RAD', 'tag_name': 'switch to radians'}}, {{'text': 'sin', 'tag_name': 'sine'}}, {{'text': 'cos', 'tag_name': 'cosine'}}, {{'text': 'tan', 'tag_name': 'tangent'}}, {{'text': '%', 'tag_name': 'percent'}}, {{'text': 'ln', 'tag_name': 'natural logarithm'}}, {{'text': 'log', 'tag_name': 'logarithm'}}, {{'text': '√', 'tag_name': 'square root'}}, {{'text': '^', 'tag_name': 'power'}}, {{'text': 'π', 'tag_name': 'pi'}}, {{'text': 'e', 'tag_name': "Euler's number"}}, {{'text': '(', 'tag_name': 'left parenthesis'}}, {{'text': ')', 'tag_name': 'right parenthesis'}}, {{'text': '!', 'tag_name': 'factorial'}}, {{'text': '7', 'tag_name': None}}, {{'text': '8', 'tag_name': None}}, {{'text': '9', 'tag_name': None}}, {{'text': '4', 'tag_name': None}}, {{'text': '5', 'tag_name': None}}, {{'text': '6', 'tag_name': None}}, {{'text': '1', 'tag_name': None}}, {{'text': '2', 'tag_name': None}}, {{'text': '3', 'tag_name': None}}, {{'text': '0', 'tag_name': None}}, {{'text': '.', 'tag_name': 'point'}}, {{'text': '÷', 'tag_name': 'divide'}}, {{'text': '×', 'tag_name': '×'}}, {{'text': '−', 'tag_name': 'minus'}}, {{'text': '+', 'tag_name': 'plus'}}, {{'text': '=', 'tag_name': 'equals'}}], 'textViews': [{{'text': '', 'tag_name': 'No formula'}}, {{'text': '', 'tag_name': 'No result'}}]}}'''
 
-def question_context(app_name: str, features: list[str], tested_features: list[str]):
-  tested_chunk: str = ''
+def tested_features_chunk(tested_features: list[str]):
   if (len(tested_features) > 0):
-    tested_chunk = f'There are tests covering the following features: {tested_features}'
+    return f'There are tests covering the following features: {', '.join(tested_features)}'
   else :
-    tested_chunk = 'No features are tested yet'
+    return 'No features are tested yet'
 
-  return f'You are a Software Test Engineer and there\'s an Android aplication called {app_name} you have to write tests for. The application needs the following features to be tested:\n{features}\n{tested_chunk}. To help you start, your coworkers already gave you the following base code: \n```\n{BASE_CODE}```\n\nIt\'s your job to select one of these features and write a function that will belong to the TestAppium class. You have the following information extracted from the ui represening buttons and text views:'
+def ui_info_context(app_name: str, features: list[str], tested_features: list[str], example: str):
+  tested_chunk = tested_features_chunk(tested_features)
 
-FINAL_QUESTION = 'Your Python function should correctly test the selected feature, making sure it works as exected. The code should use Appium and the python library unittest. Infer what assertions the respective tests need based on the provided information. Every test needs at least one assertion. Whenever the expected result would be a decimal number, use assertAlmostEqual for the assertion with a delta = 0.0001. Once all tests are executed, every button should be clicked at least once. Before the code should be a list informing the total features tested so far.'
+  return f'''You are a Software Test Engineer and there\'s an Android aplication called {app_name} you have to write tests for. The application needs the following features to be tested:\n{features}\n{tested_chunk}. It\'s your job to select one of the features not yet tested and write a function that will belong to the TestAppium class. You have the following information extracted from the ui represening buttons and text views:
 
-def prompt_template(ui_info, app_name: str, features: list[str], tested_features: list[str]):
+\'\'\'
+{example}
+\'\'\'
+
+{FINAL_QUESTION}'''
+
+def requirements_context(app_name: str, tested_features: list[str], requirements: str):
+  tested_chunk = tested_features_chunk(tested_features)
+
+  return f'''You are a Software Test Engineer and there\'s an Android aplication called {app_name} you have to write tests for. {tested_chunk}. It\'s your job to select one the features not yet tested and write a function that will belong to the TestAppium class. Next, to help you with this task, there is a document between triple quotes describing the requirements for this software, meaning there must be a test with the appropriate assertions for each requirement in the list.
+
+\'\'\'
+{requirements}
+\'\'\'
+
+{FINAL_QUESTION}'''
+
+def code_context(app_name: str, tested_features: list[str]):
+  tested_chunk = tested_features_chunk(tested_features)
+
+  return f'''You are a Software Test Engineer and there\'s an Android aplication called {app_name} you have to write tests for. {tested_chunk}. To help you start, your coworkers already gave you the following Python code:
+
+\'\'\'
+{BASE_CODE}
+\'\'\'
+
+It\'s your job to select one of the features not yet tested and write a function that will belong to the TestAppium class. You have the following information extracted from the ui represening buttons and text views:
+{FINAL_QUESTION}'''
+
+def ui_requirements_context(app_name: str, tested_features: list[str], requirements: str, example: str):
+  tested_chunk = tested_features_chunk(tested_features)
+
+  return f'''You are a Software Test Engineer and there\'s an Android aplication called {app_name} you have to write tests for. {tested_chunk}. It\'s your job to select one of the features not yet tested and write a function that will belong to the TestAppium class. Next there is a document between triple quotes describing the requirements for this software, meaning there must be a test for each requirement in the list.
+
+\'\'\'
+{requirements}
+\'\'\'
+
+For further assistance, there is also a list with information extracted from the ui represening buttons and text views:
+
+\'\'\'
+{example}
+\'\'\'
+
+{FINAL_QUESTION}'''
+
+def ui_info_code_context(app_name: str, tested_features: list[str], example: str):
+  tested_chunk = tested_features_chunk(tested_features)
+
+  return f'''You are a Software Test Engineer and there\'s an Android aplication called {app_name} you have to write tests for. {tested_chunk}. To help you start, your coworkers already gave you the following Python code:
+
+\'\'\'
+{BASE_CODE}
+\'\'\'
+
+It\'s your job to select one of the features not yet tested and write a function that will belong to the TestAppium class. You have the following information extracted from the ui represening buttons and text views:
+
+\'\'\'
+{example}
+\'\'\'
+
+{FINAL_QUESTION}'''
+
+def requirements_code_context(app_name: str, tested_features: list[str], requirements: str):
+  tested_chunk = tested_features_chunk(tested_features)
+
+  return f'''You are a Software Test Engineer and there\'s an Android aplication called {app_name} you have to write tests for. {tested_chunk}. To help you start, your coworkers already gave you the following Python code:
+
+\'\'\'
+{BASE_CODE}
+\'\'\'
+
+It\'s your job to select one the features not yet tested and write a function that will belong to the TestAppium class. Next, to help you with this task, there is a document between triple quotes describing the requirements for this software, meaning there must be a test with the appropriate assertions for each requirement in the list.
+
+\'\'\'
+{requirements}
+\'\'\'
+
+{FINAL_QUESTION}'''
+
+def ui_requirements_code_context(app_name: str, tested_features: list[str], requirements: str, example: str):
+  tested_chunk = tested_features_chunk(tested_features)
+
+  return f'''You are a Software Test Engineer and there\'s an Android aplication called {app_name} you have to write tests for. {tested_chunk}. To help you start, your coworkers already gave you the following Python code:
+
+\'\'\'
+{BASE_CODE}
+\'\'\'
+
+It\'s your job to select one of the features not yet tested and write a function that will belong to the TestAppium class. Next there is a document between triple quotes describing the requirements for this software, meaning there must be a test for each requirement in the list.
+
+\'\'\'
+{requirements}
+\'\'\'
+
+For further assistance, there is also a list with information extracted from the ui represening buttons and text views:
+
+\'\'\'
+{example}
+\'\'\'
+
+{FINAL_QUESTION}'''
+
+def few_shot_template(ui_info, context, app_name: str, features: list[str], tested_features: list[str]):
   return f'''Question:
-{question_context(app_name='Calculator', features=features, tested_features=[])}
-{CALCULATOR_UI_INFO}
-{FINAL_QUESTION}
+{context(app_name='Calculator', features=features, tested_features=[], example=CALCULATOR_UI_INFO)}
 Answer:
-TESTED FEATURES: sum;
-```
+TESTED FEATURES: sum
+\'\'\'
 {CODE_EXAMPLE_SUM}
-```
+\'\'\'
 Question:
-{question_context(app_name='Calculator', features=features, tested_features=['sum'])}
-{CALCULATOR_UI_INFO}
-{FINAL_QUESTION}
+{context(app_name='Calculator', features=features, tested_features=['sum'], example=CALCULATOR_UI_INFO)}
 Answer:
-TESTED FEATURES: sum, subtraction;
-```
+TESTED FEATURES: sum, subtraction
+\'\'\'
 {CODE_EXAMPLE_SUB}
-```
+\'\'\'
 
 Question:
-{question_context(app_name=app_name, features=features, tested_features=tested_features)}
-{ui_info}
-{FINAL_QUESTION}
+{context(app_name=app_name, features=features, tested_features=tested_features, example=ui_info)}
 Answer:
 '''
+
+def prompt_template(ui_info, app_name: str, features: list[str], tested_features: list[str], strategy = 'UI'):
+  def dynamic_context(app_name: str, features: list[str], tested_features: list[str], example) :
+    if (strategy == 'UI'):
+      return ui_info_context(app_name=app_name, features=features, tested_features=tested_features, example=example)
+    elif (strategy == 'REQ'):
+      return requirements_context(app_name=app_name, requirements=REQUIREMENTS, tested_features=tested_features)
+    elif (strategy == 'CODE'):
+      return code_context(app_name=app_name, tested_features=tested_features)
+    elif (strategy == 'UI_REQ'):
+      return ui_requirements_context(app_name=app_name, tested_features=tested_features, requirements=REQUIREMENTS, example=example)
+    elif (strategy == 'UI_CODE'):
+      return ui_info_code_context(app_name=app_name, tested_features=tested_features, example=example)
+    elif (strategy == 'REQ_CODE'):
+      return requirements_code_context(app_name=app_name, requirements=REQUIREMENTS, tested_features=tested_features)
+    elif (strategy == 'UI_REQ_CODE'):
+      return ui_requirements_code_context(app_name=app_name, tested_features=tested_features, requirements=REQUIREMENTS, example=example)
+    else :
+      raise('Not a valid strategy')
+    
+  return few_shot_template(ui_info=ui_info, context=dynamic_context, app_name=app_name, features=features, tested_features=tested_features)
