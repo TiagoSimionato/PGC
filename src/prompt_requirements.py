@@ -39,7 +39,7 @@ from utils import save
 
 model_name = 'requirements_prompt'
 model = ChatGoogleGenerativeAI(model='gemini-pro', google_api_key=API_KEY)
-prompt = requirements_template()
+prompt = requirements_template(context=CONTEXT, example_context=EXAMPLE_CONTEXT, expected_answer=EXPECTED_ANSWER)
 for i in range(0, 10):
   response: str = ''
   for chunk in model.stream(prompt):

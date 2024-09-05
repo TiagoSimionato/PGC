@@ -4,7 +4,6 @@ from prompt_contexts import (code_context, requirements_code_context,
                              requirements_context, ui_info_code_context,
                              ui_info_context, ui_requirements_code_context,
                              ui_requirements_context)
-from prompt_requirements import CONTEXT, EXAMPLE_CONTEXT, EXPECTED_ANSWER
 
 
 def prompt_template(ui_info, app_name: str, features: list[str], tested_features: list[str], strategy = 'UI'):
@@ -28,5 +27,5 @@ def prompt_template(ui_info, app_name: str, features: list[str], tested_features
     
   return few_shot_template(ui_info=ui_info, context=dynamic_context, app_name=app_name, features=features, tested_features=tested_features)
 
-def requirements_template():
-  return one_shot_template(example_context=EXAMPLE_CONTEXT, expected_answer=EXPECTED_ANSWER, context=CONTEXT)
+def requirements_template(example_context, expected_answer, context):
+  return one_shot_template(example_context=example_context, expected_answer=expected_answer, context=context)
